@@ -3,9 +3,7 @@ const pageFunctions = (function () {
     let panelCount = 3; //num of comic panels shown
     let pageSelected = 2; // selected comic
 
-    // modal variables
-    let modal = document.querySelector('#modal');
-    let modalImg = document.querySelector("#imgModal");
+
     fetch("https://xkcd.vercel.app/?comic=latest").then((res) => {
         res.json().then((result) => {
             maxNum = result.num;
@@ -84,6 +82,9 @@ const pageFunctions = (function () {
         //Create comicPanel 
         loadData: (comic) => {
             let comicDiv = document.querySelector(`#comicPanel${comic.num} img`);
+            let modal = document.querySelector('#modal');
+            let modalImg = document.querySelector("#imgModal");
+
             // change img
             comicDiv.src =
                 `${comic.img}`;
@@ -126,6 +127,7 @@ const pageFunctions = (function () {
 
         //Close Modal
         closeModal: () => {
+            let modal = document.querySelector('#modal');
             modal.style.display = "none";
         }
     };

@@ -1,0 +1,52 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="titleRow">
+        <h1>Simple Comic Reader</h1>
+        <span>Comic from <a href="https://xkcd.com/">XKCD</a></span>
+    </div>
+
+    <div id="controlRow">
+        <div id="controlLeft">
+            <label>Go to Page:</label>
+            <input type="number" id="inputBox" min=1 max=9999>
+            <button onclick="mainFunctions.searchComic()">Go</button>
+
+        </div>
+        <div id="controlMid">
+            <button onclick="mainFunctions.previousClick()"> Prev</button>
+            <button onclick="mainFunctions.randomPage()">Random</button>
+            <button onclick="mainFunctions.nextClick()">Next</button>
+        </div>
+        <div id="controlRight">
+            <label>Select Panels Shown:</label>
+            <select id="panelCount" onchange="mainFunctions.changePanel()">
+                <option value="1">1</option>
+                <option value="3" selected>3</option>
+                <option value="5">5</option>
+            </select>
+
+        </div>
+
+    </div>
+    <div id="comicRow" class="comicRow">
+
+
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal" onclick="mainFunctions.closeModal()">
+        <img class="modal-content" id="imgModal">
+    </div>
+
+</body>
+
+<script src="index.js"></script>
+
+</html>

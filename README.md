@@ -9,7 +9,7 @@ It is built with pure javacript, html and css.
 
 Download the files into a single folder and open index.html to start using.
 
-It can also be accessed from [here](https://raw.githack.com/jaywiz77/main/index.html).
+It can also be accessed from [here](https://raw.githack.com/Jaywiz77/ComicReader/main/index.html).
 
 # Usage
 

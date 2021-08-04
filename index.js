@@ -3,15 +3,16 @@ const pageFunctions = (function () {
     let panelCount = 3; //num of comic panels shown
     let pageSelected = 2; // selected comic
 
-
+    //make call on page load to get the latest page number
     fetch("https://xkcd.vercel.app/?comic=latest").then((res) => {
         res.json().then((result) => {
             maxNum = result.num;
+            document.querySelector("#comicOrigin").innerHTML = `Contains ${maxNum} pages of comics from <a href="https://xkcd.com/">XKCD</a>`;
         });
     });
 
     return {
-        //Function to call comic api
+        //Function to call comic api with given page number
         getComic: (pageNum) => {
             fetch(`https://xkcd.vercel.app/?comic=${pageNum}`)
                 .then(
@@ -40,9 +41,9 @@ const pageFunctions = (function () {
                 <h4>loading...</h4>
                 <h5>#</h5>
             </div>`;
-        }, loadComic: () => {
-            // load comic
-            document.querySelector("#comicRow").innerHTML = "";
+        }, loadComic: () => { // load comic
+
+            document.querySelector("#comicRow").innerHTML = ""; // clear comic panel row
 
             // calculate the starting page number based on selected page number and number of panels
             let mid = Math.floor(panelCount / 2);
@@ -50,7 +51,7 @@ const pageFunctions = (function () {
 
             for (let i = 0; i < panelCount; i++) {
                 let page = (start + i) % maxNum;
-                console.log(page);
+                // console.log(page);
                 if (page > 0) { // if normal
                     pageFunctions.getComic(page);
                 } else if (page < 0) { // if number less than 0, start from max number
@@ -64,16 +65,16 @@ const pageFunctions = (function () {
         },
 
 
-        //next button
+        //next page button
         nextClick: () => {
-            pageSelected = (pageSelected + panelCount) % maxNum;
+            pageSelected = (pageSelected + panelCount) % maxNum; //to ensure it always loop back to page 1
             pageFunctions.loadComic();
 
         },
 
         //previous button
         previousClick: () => {
-            pageSelected = pageSelected + maxNum - panelCount;
+            pageSelected = pageSelected + maxNum - panelCount; //to enure it loops back to last page after page 1
             pageFunctions.loadComic();
 
         },
@@ -81,20 +82,21 @@ const pageFunctions = (function () {
 
         //Create comicPanel 
         loadData: (comic) => {
+            // get comic panel elements
             let comicDiv = document.querySelector(`#comicPanel${comic.num} img`);
             let modal = document.querySelector('#modal');
             let modalImg = document.querySelector("#imgModal");
 
-            // change img
+            // change img src
             comicDiv.src =
                 `${comic.img}`;
 
-            // set modal on click
+            // set modal on click (to enlarge the image selected)
             comicDiv.onclick = function () {
                 modal.style.display = "block";
                 modalImg.src = this.src;
             }
-            // change title and page number
+            // set title and page number
             document.querySelector(`#comicPanel${comic.num} h4`).innerHTML = `${comic.title}`;
             document.querySelector(`#comicPanel${comic.num} h5`).innerHTML = `${comic.num}`;
 
@@ -104,17 +106,18 @@ const pageFunctions = (function () {
         changePanel: () => {
             const val = document.querySelector("#panelCount").value;
             panelCount = Number(val);
-            pageFunctions.loadComic();
+
+            pageFunctions.loadComic(); //reload the comics
         },
 
         //Handle Search event
         searchComic: () => {
-            const input = document.querySelector("#inputBox").value;
+            const input = document.querySelector("#inputBox").value; //get search value
             if (input > maxNum || input < 1) {
                 alert(`Please input a number between 1 and ${maxNum}`);
             } else {
-                pageSelected = Number(input);
-                pageFunctions.loadComic();
+                pageSelected = Number(input); //assign selected page
+                pageFunctions.loadComic(); // reload comics to selected page
             }
 
         },
@@ -122,7 +125,7 @@ const pageFunctions = (function () {
         //Random page
         randomPage: () => {
             pageSelected = Math.ceil(Math.random() * maxNum); //randomize a number
-            pageFunctions.loadComic();
+            pageFunctions.loadComic(); // reload comics to selected page
         },
 
         //Close Modal
